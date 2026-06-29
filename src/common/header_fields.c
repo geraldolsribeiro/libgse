@@ -59,75 +59,48 @@
 gse_status_t gse_get_start_indicator(unsigned char *packet,
                                      uint8_t *start_indicator)
 {
-  gse_status_t status = GSE_STATUS_OK;
-  gse_header_t *header;
-
-  if(packet == NULL)
+  if(packet == NULL || start_indicator == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
-  *start_indicator = header->s;
-
-error:
-  return status;
+  *start_indicator = ((gse_header_t *)packet)->s;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_end_indicator(unsigned char *packet,
                                    uint8_t *end_indicator)
 {
-  gse_status_t status = GSE_STATUS_OK;
-  gse_header_t *header;
-
-  if(packet == NULL)
+  if(packet == NULL || end_indicator == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
-  *end_indicator = header->e;
-
-error:
-  return status;
+  *end_indicator = ((gse_header_t *)packet)->e;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_label_type(unsigned char *packet, uint8_t *label_type)
 {
-  gse_status_t status = GSE_STATUS_OK;
-  gse_header_t *header;
-
-  if(packet == NULL)
+  if(packet == NULL || label_type == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
-  *label_type = header->lt;
-
-error:
-  return status;
+  *label_type = ((gse_header_t *)packet)->lt;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_gse_length(unsigned char *packet, uint16_t *gse_length)
 {
-  gse_status_t status = GSE_STATUS_OK;
-  gse_header_t *header;
-
-  if(packet == NULL)
+  if(packet == NULL || gse_length == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
+  const gse_header_t *header = (const gse_header_t *)packet;
   *gse_length = ((uint16_t)header->gse_length_hi << 8) | header->gse_length_lo;
-
-error:
-  return status;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_frag_id(unsigned char *packet, uint8_t *frag_id)

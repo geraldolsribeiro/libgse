@@ -4,6 +4,12 @@
   enable stricter default warnings
   keep public API unchanged
 
+2026-06-29 core modernization in progress
+  simplify common header helpers
+  remove repetitive error handling in header accessors
+  const-correct internal status strings
+  keep public API unchanged
+
 2017-12-14 release 1.2.0
   do not handle LLC protocols as extension headers
   fix some codesonar warnings

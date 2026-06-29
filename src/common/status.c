@@ -53,7 +53,7 @@
  ****************************************************************************/
 
 /** Table of strings containing status descriptions */
-static char *gse_status_string[GSE_STATUS_MAX] =
+static const char *const gse_status_string[GSE_STATUS_MAX] =
 {
   [0x0000] = "No error or warning",
   [0x0001 ... 0x00FF] = "Unknown status",
@@ -131,6 +131,6 @@ char *gse_get_status(gse_status_t status)
   }
   else
   {
-    return gse_status_string[status];
+    return (char *)gse_status_string[status];
   }
 }
