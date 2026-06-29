@@ -250,7 +250,7 @@ gse_status_t gse_create_vfrag_from_buf(gse_vfrag_t **vfrag, unsigned char *buffe
   }
 
   (*vfrag)->vbuf = vbuf;
-  (*vfrag)->start = ((*vfrag)->vbuf->start + head_offset),
+  (*vfrag)->start = (*vfrag)->vbuf->start + head_offset;
   (*vfrag)->length = data_length;
   (*vfrag)->end = (*vfrag)->start + (*vfrag)->length;
   assert(((*vfrag)->end) <= ((*vfrag)->vbuf->end));
@@ -280,45 +280,33 @@ error:
 
 gse_status_t gse_allocate_vfrag(gse_vfrag_t **vfrag, int alloc_vbuf)
 {
-  int status = GSE_STATUS_OK;
+  gse_status_t status = GSE_STATUS_OK;
   gse_vbuf_t *vbuf = NULL;
-    
+
   if(vfrag == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
-  if (alloc_vbuf)
+  if(alloc_vbuf)
   {
     vbuf = malloc(sizeof(gse_vbuf_t));
     if(vbuf == NULL)
     {
-      status = GSE_STATUS_MALLOC_FAILED;
-      goto error;
+      return GSE_STATUS_MALLOC_FAILED;
     }
 
     vbuf->vfrag_count = 0;
   }
-  
+
   *vfrag = malloc(sizeof(gse_vfrag_t));
   if(*vfrag == NULL)
   {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto free_vbuf;
+    free(vbuf);
+    return GSE_STATUS_MALLOC_FAILED;
   }
-    
+
   (*vfrag)->vbuf = vbuf;
-  
-  return status;
-    
-free_vbuf:
-  free(vbuf);
-error:
-  if(vfrag != NULL)
-  {
-    *vfrag = NULL;
-  }
   return status;
 }
 
@@ -326,20 +314,18 @@ gse_status_t gse_affect_buf_vfrag(gse_vfrag_t *vfrag, unsigned char *buffer,
                                   unsigned int head_offset, unsigned int trail_offset,
                                   unsigned int data_length)
 {
-  int status = GSE_STATUS_OK;
-  gse_vbuf_t *vbuf;           
-                               
+  gse_status_t status = GSE_STATUS_OK;
+  gse_vbuf_t *vbuf;
+
   if(vfrag == NULL || buffer == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   vbuf = vfrag->vbuf;
   if(vbuf == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   vbuf->start = buffer;
