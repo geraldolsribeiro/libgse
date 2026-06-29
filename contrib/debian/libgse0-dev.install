@@ -1,5 +1,6 @@
 usr/include/*
 usr/lib/*/pkgconfig/*
+usr/lib/*/libgse.so
 usr/share/doc/gse/AUTHORS usr/share/doc/libgse0-dev/
 usr/share/doc/gse/COPYING.BSD usr/share/doc/libgse0-dev/
 usr/share/doc/gse/COPYING.LESSER usr/share/doc/libgse0-dev/

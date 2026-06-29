@@ -1,0 +1,10 @@
+usr/lib/*/libgse.la
+usr/lib/*/libgse.so.0
+usr/lib/*/libgse.so.0.0.0
+usr/share/doc/gse/AUTHORS
+usr/share/doc/gse/COPYING.BSD
+usr/share/doc/gse/COPYING.LESSER
+usr/share/doc/gse/ChangeLog
+usr/share/doc/gse/INSTALL
+usr/share/doc/gse/NEWS
+usr/share/doc/gse/README.md

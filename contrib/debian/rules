@@ -13,7 +13,15 @@
 	dh  $@
 	
 override_dh_auto_configure:
-	./autogen.sh --host=$(DEB_TARGET_GNU_TYPE) --prefix=/usr/
+	mkdir -p build
+	cd build && ../../configure --host=$(DEB_TARGET_GNU_TYPE) --prefix=/usr/ --libdir=/usr/lib/$(DEB_HOST_MULTIARCH)
+
+override_dh_auto_install:
+	$(MAKE) -C build DESTDIR=$(CURDIR)/debian/tmp install
+
+override_dh_auto_clean:
+	rm -rf build config.log config.status config.h debian/*.substvars
+	dh_auto_clean
 
 override_dh_strip:
 	dh_strip --dbgsym-migration='libgse-dbg (<< 1.2.2~)'
