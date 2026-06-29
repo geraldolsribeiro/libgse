@@ -334,7 +334,7 @@ gse_status_t gse_encap_set_offsets(gse_encap_t *encap,
 /* Encapsulation functions */
 
 gse_status_t gse_encap_receive_pdu(gse_vfrag_t *pdu, gse_encap_t *encap,
-                                   uint8_t label[6], uint8_t label_type,
+                                   const uint8_t label[6], uint8_t label_type,
                                    uint16_t protocol, uint8_t qos)
 {
   gse_status_t status = GSE_STATUS_OK;

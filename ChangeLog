@@ -23,6 +23,7 @@
   modernize header length helper
   streamline FIFO helpers
   add C++ compatibility guards to public headers
+  const-correct encap input labels
   keep public API unchanged
 
 2017-12-14 release 1.2.0
