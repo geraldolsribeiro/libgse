@@ -30,6 +30,7 @@
   enable C++ compiler detection
   document buffer ownership expectations
   const-correct label lookup API
+  const-correct extension validation input
   keep public API unchanged
 
 2017-12-14 release 1.2.0

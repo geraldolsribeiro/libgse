@@ -289,7 +289,7 @@ gse_status_t gse_get_label(const unsigned char *packet, uint8_t label[6]);
  *
  *  @ingroup gse_head_access
  */
-gse_status_t gse_check_header_extension_validity(unsigned char *extension,
+gse_status_t gse_check_header_extension_validity(const unsigned char *extension,
                                                  size_t *ext_length,
                                                  uint16_t extension_type,
                                                  uint16_t *protocol_type);
