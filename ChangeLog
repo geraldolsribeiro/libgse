@@ -19,6 +19,9 @@
   modernize deencap loops and length arithmetic
   const-correct status lookup API
   streamline virtual fragment allocation helpers
+  const-correct CRC helpers
+  modernize header length helper
+  streamline FIFO helpers
   keep public API unchanged
 
 2017-12-14 release 1.2.0

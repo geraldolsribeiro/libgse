@@ -96,18 +96,15 @@ gse_status_t gse_release_fifo(fifo_t *fifo)
   gse_status_t status = GSE_STATUS_OK;
   gse_status_t stat_mem = GSE_STATUS_OK;
 
-  unsigned int i;
-
   assert(fifo != NULL);
 
   if(pthread_mutex_lock(&fifo->mutex) != 0)
   {
-    status = GSE_STATUS_PTHREAD_MUTEX;
-    goto error;
+    return GSE_STATUS_PTHREAD_MUTEX;
   }
 
   /* Free fragments in each encapsulation context */
-  for(i = fifo->first;
+  for(size_t i = fifo->first;
       i != (fifo->last + 1) % fifo->size;
       i = (i + 1) % fifo->size)
   {
@@ -122,20 +119,15 @@ gse_status_t gse_release_fifo(fifo_t *fifo)
 
   if(pthread_mutex_unlock(&fifo->mutex) != 0)
   {
-    status = GSE_STATUS_PTHREAD_MUTEX;
-    goto error;
+    return GSE_STATUS_PTHREAD_MUTEX;
   }
 
-  /* Destroy the mutex on the FIFO */
   if(pthread_mutex_destroy(&fifo->mutex) != 0)
   {
-    status = GSE_STATUS_PTHREAD_MUTEX;
-    goto error;
+    return GSE_STATUS_PTHREAD_MUTEX;
   }
 
   return stat_mem;
-error:
-  return status;
 }
 
 gse_status_t gse_pop_fifo(fifo_t *fifo)
@@ -240,15 +232,13 @@ int gse_get_fifo_elt_nbr(fifo_t *const fifo)
 
   if(pthread_mutex_lock(&fifo->mutex) != 0)
   {
-    goto error;
+    return -1;
   }
   nbr = fifo->elt_nbr;
   if(pthread_mutex_unlock(&fifo->mutex) != 0)
   {
-    goto error;
+    return -1;
   }
 
   return nbr;
-error:
-  return -1;
 }
