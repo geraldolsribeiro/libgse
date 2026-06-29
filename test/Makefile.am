@@ -20,7 +20,7 @@ EXTRA_DIST = \
 	non_regression_tests.sh \
     non_regression_tests_no_alloc.sh
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/encap \
 	-I$(top_srcdir)/src/deencap

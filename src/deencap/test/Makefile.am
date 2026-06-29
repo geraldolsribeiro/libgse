@@ -30,7 +30,7 @@ EXTRA_DIST = \
 	input \
 	output
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/deencap \
 	-I$(top_srcdir)/src/common
 

@@ -8,7 +8,7 @@ noinst_PROGRAMS = \
 	gsetunnel \
 	gsetunnel_thread
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/encap \
 	-I$(top_srcdir)/src/deencap

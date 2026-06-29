@@ -22,8 +22,8 @@ EXTRA_DIST = \
 	$(SCRIPTS_SH) \
 	input
 
-INCLUDES = \
-	-I$(top_srcdir)/src/common/ 
+AM_CPPFLAGS = \
+	-I$(top_srcdir)/src/common/
 
 test_vfrag_SOURCES = test_vfrag.c
 test_vfrag_LDADD = $(top_builddir)/src/common/libgse_common.la

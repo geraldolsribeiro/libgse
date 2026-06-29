@@ -18,6 +18,6 @@ headers = \
 
 libgse_deencap_la_SOURCES = $(sources) $(headers)
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common
 

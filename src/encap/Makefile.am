@@ -27,6 +27,6 @@ libgse_encap_la_SOURCES = $(sources) $(headers)
 
 AM_LDFLAGS = -lpthread 
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common
 

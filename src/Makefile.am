@@ -19,7 +19,7 @@ libgse_la_LIBADD = \
 	encap/libgse_encap.la \
 	deencap/libgse_deencap.la
 
-libgse_includedir = ${includedir}/gse
+libgse_includedir = $(includedir)/gse
 
 libgse_include_HEADERS = \
 	common/constants.h \

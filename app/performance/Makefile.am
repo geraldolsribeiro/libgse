@@ -8,7 +8,7 @@ noinst_PROGRAMS = \
 	eval_gse_trunk \
 	eval_gse_no_alloc
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/encap \
 	-I$(top_srcdir)/src/deencap
