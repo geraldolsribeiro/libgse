@@ -948,19 +948,13 @@ static size_t gse_deencap_compute_pdu_length(uint16_t total_length,
                                              gse_label_type_t label_type,
                                              size_t tot_ext_length)
 {
-  uint16_t pdu_length;
-  pdu_length = total_length - gse_get_label_length(label_type)
-               - GSE_PROTOCOL_TYPE_LENGTH - tot_ext_length;
-  return pdu_length;
+  return total_length - gse_get_label_length(label_type)
+         - GSE_PROTOCOL_TYPE_LENGTH - tot_ext_length;
 }
 
 static uint32_t gse_deencap_compute_crc(unsigned char *data,
                                         size_t length,
                                         uint32_t crc_init)
 {
-  uint32_t crc;
-
-  crc = compute_crc(data, length, crc_init);
-
-  return crc;
+  return compute_crc(data, length, crc_init);
 }

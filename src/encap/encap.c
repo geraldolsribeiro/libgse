@@ -539,36 +539,25 @@ error:
 
 static uint16_t gse_encap_compute_total_length(gse_encap_ctx_t *const encap_ctx)
 {
-  uint16_t total_length;
   assert(encap_ctx != NULL);
-  total_length = gse_get_label_length(encap_ctx->label_type)
-                 + GSE_PROTOCOL_TYPE_LENGTH
-                 + encap_ctx->vfrag->length;
-  return total_length;
+  return (uint16_t)(gse_get_label_length(encap_ctx->label_type) +
+                    GSE_PROTOCOL_TYPE_LENGTH +
+                    encap_ctx->vfrag->length);
 }
 
 static gse_status_t gse_encap_set_gse_length(size_t packet_length,
                                              gse_header_t *header)
 {
-  gse_status_t status = GSE_STATUS_OK;
-
-  uint16_t gse_length;
-
   assert(header != NULL);
-  /* GSE Length take into account all the fields following it */
-  gse_length = packet_length - GSE_MANDATORY_FIELDS_LENGTH;
-  /* GSE Length field contain 12 bits */
+  const uint16_t gse_length = packet_length - GSE_MANDATORY_FIELDS_LENGTH;
   if(gse_length > 0xFFF)
   {
-    status = GSE_STATUS_LENGTH_TOO_HIGH;
-    goto error;
+    return GSE_STATUS_LENGTH_TOO_HIGH;
   }
 
   header->gse_length_hi = (gse_length >> 8) & 0x0F;
   header->gse_length_lo = gse_length & 0xFF;
-
-error:
-  return status;
+  return GSE_STATUS_OK;
 }
 
 static size_t gse_encap_compute_packet_length(size_t desired_length,
