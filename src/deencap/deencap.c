@@ -266,16 +266,13 @@ gse_status_t gse_deencap_release(gse_deencap_t *deencap)
   gse_status_t status = GSE_STATUS_OK;
   gse_status_t stat_mem = GSE_STATUS_OK;
 
-  unsigned int i;
-
   if(deencap == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   /* Release each context */
-  for(i = 0; i < gse_deencap_get_qos_nbr(deencap); i++)
+  for(size_t i = 0; i < gse_deencap_get_qos_nbr(deencap); ++i)
   {
     if(deencap->deencap_ctx[i].partial_pdu != NULL)
     {
@@ -290,8 +287,6 @@ gse_status_t gse_deencap_release(gse_deencap_t *deencap)
   free(deencap);
 
   return stat_mem;
-error:
-  return status;
 }
 
 gse_status_t gse_deencap_set_offsets(gse_deencap_t *deencap, size_t head_offset,
@@ -301,6 +296,7 @@ gse_status_t gse_deencap_set_offsets(gse_deencap_t *deencap, size_t head_offset,
   {
     return GSE_STATUS_NULL_PTR;
   }
+
   deencap->head_offset = head_offset;
   deencap->trail_offset = trail_offset;
   return GSE_STATUS_OK;

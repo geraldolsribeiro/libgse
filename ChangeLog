@@ -15,6 +15,7 @@
   simplify encap release and length helpers
   harden encap packet selection flow
   simplify encap PDU intake flow
+  streamline deencap release helpers
   keep public API unchanged
 
 2017-12-14 release 1.2.0
