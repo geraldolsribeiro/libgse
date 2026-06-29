@@ -664,7 +664,7 @@ static gse_status_t gse_encap_get_packet_common(int mode, gse_vfrag_t **packet,
   /* There should always been data because free fragment are removed from the
    * FIFO at the end of this function */
   assert(remaining_data_length > 0);
-  if(remaining_data_length <= 0)
+  if(remaining_data_length == 0)
   {
     status = GSE_STATUS_INTERNAL_ERROR;
     goto packet_null;
@@ -848,6 +848,9 @@ static gse_status_t gse_encap_get_packet_common(int mode, gse_vfrag_t **packet,
       /* Duplicate the fragment - no allocation */
       status = gse_duplicate_vfrag_no_alloc(packet, encap_ctx->vfrag, desired_length);
       break;
+    default:
+      status = GSE_STATUS_INTERNAL_ERROR;
+      goto packet_null;
   }
   if(status != GSE_STATUS_OK)
   {
