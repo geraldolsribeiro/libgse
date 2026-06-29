@@ -25,6 +25,7 @@
   add C++ compatibility guards to public headers
   const-correct encap input labels
   add C++ compile sanity test
+  add ASan sanity test
   enable C++ compiler detection
   document buffer ownership expectations
   keep public API unchanged

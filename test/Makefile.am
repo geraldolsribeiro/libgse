@@ -10,18 +10,21 @@ check_PROGRAMS = \
 	test_encap_deencap \
 	non_regression_tests \
     non_regression_tests_no_alloc \
-    cpp_sanity_test
+    cpp_sanity_test \
+    cpp_asan_test
 
 TESTS = \
 	test_encap_deencap.sh \
-	cpp_sanity_test
+	cpp_sanity_test \
+	cpp_asan_test
 
 EXTRA_DIST = \
 	encap_deencap_max_pdu_length.pcap \
 	test_encap_deencap.sh \
 	non_regression_tests.sh \
     non_regression_tests_no_alloc.sh \
-    cpp_sanity_test.cc
+    cpp_sanity_test.cc \
+    cpp_asan_test.cc
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
@@ -47,3 +50,8 @@ non_regression_tests_no_alloc_LDADD = \
 
 cpp_sanity_test_SOURCES = cpp_sanity_test.cc
 cpp_sanity_test_LDADD = $(top_builddir)/src/libgse.la
+
+cpp_asan_test_SOURCES = cpp_asan_test.cc
+cpp_asan_test_LDADD = $(top_builddir)/src/libgse.la
+cpp_asan_test_CXXFLAGS = $(AM_CXXFLAGS) -fsanitize=address,undefined -fno-omit-frame-pointer
+cpp_asan_test_LDFLAGS = $(AM_LDFLAGS) -fsanitize=address,undefined
