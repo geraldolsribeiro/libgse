@@ -16,7 +16,7 @@ dist_doc_DATA = \
 	COPYING.BSD \
 	INSTALL \
 	NEWS \
-	README
+	README.md
 	
 EXTRA_DIST = \
 	doc/doxygen \
