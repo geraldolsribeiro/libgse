@@ -58,21 +58,18 @@
 
 gse_status_t gse_init_fifo(fifo_t *fifo, size_t size)
 {
-  gse_status_t status = GSE_STATUS_OK;
-
   assert(fifo != NULL);
 
   if(size == 0)
   {
-    status = GSE_STATUS_FIFO_SIZE_NULL;
-    goto error;
+    return GSE_STATUS_FIFO_SIZE_NULL;
   }
+
   /* Each FIFO value is an encapsulation context */
   fifo->values = calloc(size, sizeof(gse_encap_ctx_t));
   if(fifo->values == NULL)
   {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto error;
+    return GSE_STATUS_MALLOC_FAILED;
   }
   /* Initialize the FIFO */
   fifo->size = size;
@@ -83,12 +80,10 @@ gse_status_t gse_init_fifo(fifo_t *fifo, size_t size)
   /* Initialize the mutex on the FIFO */
   if(pthread_mutex_init(&fifo->mutex, NULL) != 0)
   {
-    status = GSE_STATUS_PTHREAD_MUTEX;
-    goto error;
+    return GSE_STATUS_PTHREAD_MUTEX;
   }
 
-error:
-  return status;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_release_fifo(fifo_t *fifo)
@@ -226,15 +221,14 @@ error_mutex:
 
 int gse_get_fifo_elt_nbr(fifo_t *const fifo)
 {
-  int nbr;
-
   assert(fifo != NULL);
 
   if(pthread_mutex_lock(&fifo->mutex) != 0)
   {
     return -1;
   }
-  nbr = fifo->elt_nbr;
+
+  const int nbr = fifo->elt_nbr;
   if(pthread_mutex_unlock(&fifo->mutex) != 0)
   {
     return -1;
