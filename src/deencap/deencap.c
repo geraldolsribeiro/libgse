@@ -608,14 +608,12 @@ error:
 
 gse_status_t gse_deencap_new_bbframe(gse_deencap_t *deencap)
 {
-  unsigned int i;
-
   if(deencap == NULL)
   {
     return GSE_STATUS_NULL_PTR;
   }
 
-  for(i = 0 ; i < gse_deencap_get_qos_nbr(deencap) ; i++)
+  for(size_t i = 0; i < gse_deencap_get_qos_nbr(deencap); ++i)
   {
     if(deencap->deencap_ctx[i].partial_pdu != NULL)
     {
@@ -651,7 +649,6 @@ gse_status_t gse_deencap_set_extension_callback(gse_deencap_t *deencap,
 static uint8_t gse_deencap_get_qos_nbr(gse_deencap_t *deencap)
 {
   assert(deencap != NULL);
-
   return deencap->qos_nbr;
 }
 
@@ -944,7 +941,7 @@ static size_t gse_deencap_compute_pdu_length(uint16_t total_length,
                                              gse_label_type_t label_type,
                                              size_t tot_ext_length)
 {
-  return total_length - gse_get_label_length(label_type)
+  return total_length - (size_t)gse_get_label_length(label_type)
          - GSE_PROTOCOL_TYPE_LENGTH - tot_ext_length;
 }
 
