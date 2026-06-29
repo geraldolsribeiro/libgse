@@ -607,8 +607,7 @@ static gse_status_t gse_encap_get_packet_common(int mode, gse_vfrag_t **packet,
 
   if(packet == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   size_t remaining_data_length;
@@ -622,8 +621,7 @@ static gse_status_t gse_encap_get_packet_common(int mode, gse_vfrag_t **packet,
   /* Check parameters */
   if(encap == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto packet_null;
+    return GSE_STATUS_NULL_PTR;
   }
   if(qos >= encap->qos_nbr)
   {
@@ -901,11 +899,7 @@ free_packet:
     gse_free_vfrag(packet);
   }
 packet_null:
-  if(extensions != NULL)
-  {
-    free(extensions);
-  }
-error:
+  free(extensions);
   if(mode != NO_ALLOC && packet != NULL)
   {
     *packet = NULL;
