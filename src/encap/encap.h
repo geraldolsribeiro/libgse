@@ -50,10 +50,15 @@
 #ifndef GSE_ENCAP_H
 #define GSE_ENCAP_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 #include "virtual_fragment.h"
 #include "encap_header_ext.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct gse_encap_s;
 /** Encapsulation structure type definition */
@@ -310,5 +315,9 @@ gse_status_t gse_encap_get_packet_no_alloc_old(gse_vfrag_t *packet, gse_encap_t 
 gse_status_t gse_encap_set_extension_callback(gse_encap_t *encap,
                                               gse_encap_build_header_ext_cb_t callback,
                                               void *opaque);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

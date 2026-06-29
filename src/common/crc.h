@@ -51,12 +51,21 @@
 #ifndef CRC_H
 #define CRC_H
 
+#include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**< Initial value for CRC32 computation */
 #define GSE_CRC_INIT 0xFFFFFFFF
 
 uint32_t compute_crc(const unsigned char *data, size_t length, uint32_t crc_init);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -48,10 +48,15 @@
 #ifndef GSE_DEENCAP_H
 #define GSE_DEENCAP_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 #include "virtual_fragment.h"
 #include "deencap_header_ext.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct gse_deencap_s;
 typedef struct gse_deencap_s gse_deencap_t;
@@ -229,5 +234,9 @@ gse_status_t gse_deencap_new_bbframe(gse_deencap_t *deencap);
 gse_status_t gse_deencap_set_extension_callback(gse_deencap_t *deencap,
                                                 gse_deencap_read_header_ext_cb_t callback,
                                                 void *opaque);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

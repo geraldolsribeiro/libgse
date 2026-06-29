@@ -48,6 +48,10 @@
 #ifndef GSE_STATUS_H
 #define GSE_STATUS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @defgroup gse_status_codes GSE status codes API
  */
@@ -218,5 +222,9 @@ typedef enum
  *  @ingroup gse_status_codes
  */
 const char *gse_get_status(gse_status_t status);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

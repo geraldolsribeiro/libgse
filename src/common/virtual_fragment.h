@@ -50,9 +50,14 @@
 #ifndef VIRTUAL_FRAGMENT_H
 #define VIRTUAL_FRAGMENT_H
 
+#include <stddef.h>
 #include <string.h>
 
 #include "status.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /** Get the minimum between two values */
 #define MIN(x, y)  (((x) < (y)) ? (x) : (y))
@@ -487,5 +492,8 @@ gse_status_t gse_reallocate_vfrag(gse_vfrag_t *vfrag,
                                   size_t start_offset, size_t max_length,
                                   size_t head_offset, size_t trail_offset);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

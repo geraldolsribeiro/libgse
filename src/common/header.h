@@ -48,11 +48,16 @@
 #ifndef HEADER_H
 #define HEADER_H
 
+#include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 #include <endian.h>
 
 #include "constants.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**< Minimum length of a GSE packet (in Bytes) */
 #define GSE_MIN_PACKET_LENGTH 3
@@ -153,5 +158,9 @@ typedef enum
  */
 size_t gse_compute_header_length(gse_payload_type_t payload_type,
                                  gse_label_type_t label_type);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
