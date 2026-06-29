@@ -33,6 +33,7 @@
   const-correct extension validation input
   replace simple goto error patterns
   simplify header field accessors
+  simplify encap extension checks
   keep public API unchanged
 
 2017-12-14 release 1.2.0

@@ -108,13 +108,11 @@ restart:
   else
   {
     /* PDU fragment, no protocol_type field in header: cannot add extension */
-    status = GSE_STATUS_EXTENSION_UNAVAILABLE;
-    goto error;
+    return GSE_STATUS_EXTENSION_UNAVAILABLE;
   }
   if(gse_is_ext_hdr(protocol_type))
   {
-    status = GSE_STATUS_EXTENSION_UNAVAILABLE;
-    goto error;
+    return GSE_STATUS_EXTENSION_UNAVAILABLE;
   }
 
   tot_ext_length = GSE_MAX_EXT_LENGTH;
