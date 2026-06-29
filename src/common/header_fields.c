@@ -105,21 +105,18 @@ gse_status_t gse_get_gse_length(unsigned char *packet, uint16_t *gse_length)
 
 gse_status_t gse_get_frag_id(unsigned char *packet, uint8_t *frag_id)
 {
-  gse_status_t status = GSE_STATUS_OK;
   gse_header_t *header;
 
   if(packet == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   header = (gse_header_t *)packet;
   // Test if the GSE packet contains a fragment of PDU and not a complete PDU
   if(header->s == 1 && header->e == 1)
   {
-    status = GSE_STATUS_FIELD_ABSENT;
-    goto error;
+    return GSE_STATUS_FIELD_ABSENT;
   }
   // Set the Frag Id according to payload type
   if(header->s == 0)
@@ -131,52 +128,44 @@ gse_status_t gse_get_frag_id(unsigned char *packet, uint8_t *frag_id)
     *frag_id = header->first_frag_s.frag_id;
   }
 
-error:
-  return status;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_total_length(unsigned char *packet, uint16_t *total_length)
 {
-  gse_status_t status = GSE_STATUS_OK;
   gse_header_t *header;
 
   if(packet == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   header = (gse_header_t *)packet;
   // Test if the GSE packet contains the good fragment type
   if(header->s != 1 || header->e != 0)
   {
-    status = GSE_STATUS_FIELD_ABSENT;
-    goto error;
+    return GSE_STATUS_FIELD_ABSENT;
   }
   *total_length = ntohs(header->first_frag_s.total_length);
 
-error:
-  return status;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_protocol_type(unsigned char *packet,
                                    uint16_t *protocol_type)
 {
-  gse_status_t status = GSE_STATUS_OK;
   gse_header_t *header;
 
   if(packet == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   header = (gse_header_t *)packet;
   // Test if the GSE packet contains the good payload type
   if(header->s != 1)
   {
-    status = GSE_STATUS_FIELD_ABSENT;
-    goto error;
+    return GSE_STATUS_FIELD_ABSENT;
   }
   // Set the Protocol Type according to payload type
   if(header->e == 0)
@@ -188,8 +177,7 @@ gse_status_t gse_get_protocol_type(unsigned char *packet,
     *protocol_type = ntohs(header->complete_s.protocol_type);
   }
 
-error:
-  return status;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_get_label(const unsigned char *packet, uint8_t label[6])

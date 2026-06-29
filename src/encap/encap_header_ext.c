@@ -79,8 +79,7 @@ restart:
 
   if(packet == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   /* copy header because we will need it after packet modifications */

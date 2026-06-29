@@ -32,6 +32,7 @@
   const-correct label lookup API
   const-correct extension validation input
   replace simple goto error patterns
+  simplify header field accessors
   keep public API unchanged
 
 2017-12-14 release 1.2.0
