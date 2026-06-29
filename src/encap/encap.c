@@ -299,16 +299,13 @@ gse_status_t gse_encap_release(gse_encap_t *encap)
   gse_status_t status = GSE_STATUS_OK;
   gse_status_t stat_mem = GSE_STATUS_OK;
 
-  unsigned int i;
-
   if(encap == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   /* Release FIFO in each context */
-  for(i = 0 ; i < encap->qos_nbr ; i++)
+  for(size_t i = 0; i < encap->qos_nbr; ++i)
   {
     status = gse_release_fifo(&encap->fifo[i]);
     if(status != GSE_STATUS_OK)
@@ -320,8 +317,6 @@ gse_status_t gse_encap_release(gse_encap_t *encap)
   free(encap);
 
   return stat_mem;
-error:
-  return status;
 }
 
 gse_status_t gse_encap_set_offsets(gse_encap_t *encap,
@@ -549,7 +544,8 @@ static gse_status_t gse_encap_set_gse_length(size_t packet_length,
                                              gse_header_t *header)
 {
   assert(header != NULL);
-  const uint16_t gse_length = packet_length - GSE_MANDATORY_FIELDS_LENGTH;
+
+  const size_t gse_length = packet_length - GSE_MANDATORY_FIELDS_LENGTH;
   if(gse_length > 0xFFF)
   {
     return GSE_STATUS_LENGTH_TOO_HIGH;

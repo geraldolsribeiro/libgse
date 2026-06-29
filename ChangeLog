@@ -12,6 +12,7 @@
   continue streamlining buffer helpers
   modernize crc helper implementation
   tighten encap cleanup flow
+  simplify encap release and length helpers
   keep public API unchanged
 
 2017-12-14 release 1.2.0
