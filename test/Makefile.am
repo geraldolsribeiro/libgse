@@ -16,7 +16,7 @@ check_PROGRAMS = \
 TESTS = \
 	test_encap_deencap.sh \
 	cpp_sanity_test \
-	cpp_asan_test
+	cpp_asan_test.sh
 
 EXTRA_DIST = \
 	encap_deencap_max_pdu_length.pcap \
@@ -24,7 +24,8 @@ EXTRA_DIST = \
 	non_regression_tests.sh \
     non_regression_tests_no_alloc.sh \
     cpp_sanity_test.cc \
-    cpp_asan_test.cc
+    cpp_asan_test.cc \
+    cpp_asan_test.sh
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \

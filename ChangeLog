@@ -26,8 +26,10 @@
   const-correct encap input labels
   add C++ compile sanity test
   add ASan sanity test
+  add ASan runner script
   enable C++ compiler detection
   document buffer ownership expectations
+  fix deencap fragment ownership on extension parsing
   keep public API unchanged
 
 2017-12-14 release 1.2.0
