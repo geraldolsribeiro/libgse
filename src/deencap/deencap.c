@@ -222,54 +222,43 @@ static uint32_t gse_deencap_compute_crc(unsigned char *data,
 
 gse_status_t gse_deencap_init(uint8_t qos_nbr, gse_deencap_t **deencap)
 {
-  gse_status_t status;
-
   if(deencap == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
-  /* Allocate memory for the deencapsulation structure */
-  *deencap = calloc(1, sizeof(gse_deencap_t));
-  if(*deencap == NULL)
-  {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto error;
-  }
-
-  /* Check the QoS number value is correct */
+  *deencap = NULL;
   if(qos_nbr == 0)
   {
-    status = GSE_STATUS_INVALID_QOS;
-    goto error;
+    return GSE_STATUS_INVALID_QOS;
   }
 
-  /* Create as deencapsulation contexts as QoS values
-   * The context are initialized to 0 because on release, virtual fragments
-   * contained by context must be destroyed only if they exist */
+  *deencap = calloc(1, sizeof(**deencap));
+  if(*deencap == NULL)
+  {
+    return GSE_STATUS_MALLOC_FAILED;
+  }
+
+  /* Create as deencapsulation contexts as QoS values */
   (*deencap)->deencap_ctx = calloc(qos_nbr, sizeof(gse_deencap_ctx_t));
   if((*deencap)->deencap_ctx == NULL)
   {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto free_deencap;
+    free(*deencap);
+    *deencap = NULL;
+    return GSE_STATUS_MALLOC_FAILED;
   }
   (*deencap)->qos_nbr = qos_nbr;
 
-  /* Initialize the offsets of the virtual buffers of the PDUs to 0 by default */
-  status = gse_deencap_set_offsets(*deencap, 0, 0);
+  gse_status_t status = gse_deencap_set_offsets(*deencap, 0, 0);
   if(status != GSE_STATUS_OK)
   {
-    goto free_deencap;
+    free((*deencap)->deencap_ctx);
+    free(*deencap);
+    *deencap = NULL;
+    return status;
   }
 
   return GSE_STATUS_OK;
-
-free_deencap:
-  free(*deencap);
-  *deencap = NULL;
-error:
-  return status;
 }
 
 gse_status_t gse_deencap_release(gse_deencap_t *deencap)

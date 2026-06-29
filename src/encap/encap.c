@@ -239,72 +239,59 @@ static gse_status_t gse_encap_get_packet_common(int mode, gse_vfrag_t **packet,
 gse_status_t gse_encap_init(uint8_t qos_nbr, size_t fifo_size,
                             gse_encap_t **encap)
 {
-  gse_status_t status;
-
-  unsigned int i;
-
   if(encap == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
+  *encap = NULL;
   if(qos_nbr == 0)
   {
-    status = GSE_STATUS_QOS_NBR_NULL;
-    goto error;
+    return GSE_STATUS_QOS_NBR_NULL;
   }
   if(fifo_size == 0)
   {
-    status = GSE_STATUS_FIFO_SIZE_NULL;
-    goto error;
+    return GSE_STATUS_FIFO_SIZE_NULL;
   }
-  *encap = calloc(1, sizeof(gse_encap_t));
+
+  *encap = calloc(1, sizeof(**encap));
   if(*encap == NULL)
   {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto error;
+    return GSE_STATUS_MALLOC_FAILED;
   }
+
   (*encap)->fifo = malloc(sizeof(fifo_t) * qos_nbr);
   (*encap)->qos_nbr = qos_nbr;
   if((*encap)->fifo == NULL)
   {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto free_encap;
+    free(*encap);
+    *encap = NULL;
+    return GSE_STATUS_MALLOC_FAILED;
   }
 
-  /* Initialize each FIFO in encapsulation context */
-  for(i = 0 ; i < qos_nbr ; i++)
+  for(uint8_t i = 0; i < qos_nbr; ++i)
   {
-    status = gse_init_fifo(&(*encap)->fifo[i], fifo_size);
+    gse_status_t status = gse_init_fifo(&(*encap)->fifo[i], fifo_size);
     if(status != GSE_STATUS_OK)
     {
-      goto free_fifo;
+      free((*encap)->fifo);
+      free(*encap);
+      *encap = NULL;
+      return status;
     }
   }
 
-  /* Initialize offsets
-   * The head offset length difference between first fragment header and
-   * complete one, it allows to allocate enough space for a complete PDU
-   * refragmentation */
-  status = gse_encap_set_offsets(*encap, GSE_MAX_REFRAG_HEAD_OFFSET, 0);
+  /* Initialize offsets */
+  gse_status_t status = gse_encap_set_offsets(*encap, GSE_MAX_REFRAG_HEAD_OFFSET, 0);
   if(status != GSE_STATUS_OK)
   {
-    goto free_fifo;
+    free((*encap)->fifo);
+    free(*encap);
+    *encap = NULL;
+    return status;
   }
 
   return GSE_STATUS_OK;
-
-free_fifo:
-  free((*encap)->fifo);
-free_encap:
-  free(*encap);
-error:
-  if(encap != NULL)
-  {
-    *encap = NULL;
-  }
-  return status;
 }
 
 gse_status_t gse_encap_release(gse_encap_t *encap)
