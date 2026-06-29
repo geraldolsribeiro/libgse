@@ -56,31 +56,22 @@
  *
  ****************************************************************************/
 
-size_t gse_compute_header_length(gse_payload_type_t payload_type,
-                                 gse_label_type_t label_type)
-{
+size_t gse_compute_header_length(gse_payload_type_t payload_type, gse_label_type_t label_type) {
   const int label_length = gse_get_label_length(label_type);
 
-  switch(payload_type)
-  {
-    case GSE_PDU_COMPLETE:
-      return GSE_MANDATORY_FIELDS_LENGTH +
-             GSE_PROTOCOL_TYPE_LENGTH +
-             (size_t)label_length;
+  switch (payload_type) {
+  case GSE_PDU_COMPLETE:
+    return GSE_MANDATORY_FIELDS_LENGTH + GSE_PROTOCOL_TYPE_LENGTH + (size_t)label_length;
 
-    case GSE_PDU_FIRST_FRAG:
-      return GSE_MANDATORY_FIELDS_LENGTH +
-             GSE_FRAG_ID_LENGTH +
-             GSE_TOTAL_LENGTH_LENGTH +
-             GSE_PROTOCOL_TYPE_LENGTH +
-             (size_t)label_length;
+  case GSE_PDU_FIRST_FRAG:
+    return GSE_MANDATORY_FIELDS_LENGTH + GSE_FRAG_ID_LENGTH + GSE_TOTAL_LENGTH_LENGTH + GSE_PROTOCOL_TYPE_LENGTH + (size_t)label_length;
 
-    case GSE_PDU_SUBS_FRAG:
-    case GSE_PDU_LAST_FRAG:
-      return GSE_MANDATORY_FIELDS_LENGTH + GSE_FRAG_ID_LENGTH;
+  case GSE_PDU_SUBS_FRAG:
+  case GSE_PDU_LAST_FRAG:
+    return GSE_MANDATORY_FIELDS_LENGTH + GSE_FRAG_ID_LENGTH;
 
-    default:
-      assert(0);
-      return 0;
+  default:
+    assert(0);
+    return 0;
   }
 }

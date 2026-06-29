@@ -46,7 +46,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef VIRTUAL_FRAGMENT_H
 #define VIRTUAL_FRAGMENT_H
 
@@ -60,7 +59,7 @@ extern "C" {
 #endif
 
 /** Get the minimum between two values */
-#define MIN(x, y)  (((x) < (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 /**
  * @defgroup gse_virtual_fragment GSE virtual fragment API
@@ -73,21 +72,19 @@ extern "C" {
  ****************************************************************************/
 
 /** Virtual buffer */
-typedef struct
-{
-  unsigned char *start; /**< Point on the beginning of the virtual buffer */
-  unsigned char *end;   /**< Point on the end of the virtual buffer */
-  size_t length;        /**< Length of the virtual buffer (in bytes)*/
+typedef struct {
+  unsigned char* start;     /**< Point on the beginning of the virtual buffer */
+  unsigned char* end;       /**< Point on the end of the virtual buffer */
+  size_t length;            /**< Length of the virtual buffer (in bytes)*/
   unsigned int vfrag_count; /**< Number of virtual fragments
                                  This value should not be greater than 2 */
 } gse_vbuf_t;
 
 /** Virtual fragment: represent a subpart of a virtual buffer */
-typedef struct
-{
-  gse_vbuf_t *vbuf;     /**< The virtual buffer to which the fragment belongs */
-  unsigned char *start; /**< Point on the beginning of the virtual fragment */
-  unsigned char *end;   /**< Point on the end of the virtual fragment */
+typedef struct {
+  gse_vbuf_t* vbuf;     /**< The virtual buffer to which the fragment belongs */
+  unsigned char* start; /**< Point on the beginning of the virtual fragment */
+  unsigned char* end;   /**< Point on the end of the virtual fragment */
   size_t length;        /**< length of the virtual fragment (in bytes)*/
 } gse_vfrag_t;
 
@@ -123,8 +120,7 @@ typedef struct
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_create_vfrag(gse_vfrag_t **vfrag, size_t max_length,
-                              size_t head_offset, size_t trail_offset);
+gse_status_t gse_create_vfrag(gse_vfrag_t** vfrag, size_t max_length, size_t head_offset, size_t trail_offset);
 
 /**
  *  @brief   Create a virtual fragment containing data
@@ -156,10 +152,7 @@ gse_status_t gse_create_vfrag(gse_vfrag_t **vfrag, size_t max_length,
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_create_vfrag_with_data(gse_vfrag_t **vfrag, size_t max_length,
-                                        size_t head_offset, size_t trail_offset,
-                                        unsigned char const *data,
-                                        size_t data_length);
+gse_status_t gse_create_vfrag_with_data(gse_vfrag_t** vfrag, size_t max_length, size_t head_offset, size_t trail_offset, unsigned char const* data, size_t data_length);
 
 /**
  *  @brief   Copy data in a virtual fragment
@@ -180,8 +173,7 @@ gse_status_t gse_create_vfrag_with_data(gse_vfrag_t **vfrag, size_t max_length,
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_copy_data(gse_vfrag_t *vfrag, unsigned char const* data,
-                           size_t data_length);
+gse_status_t gse_copy_data(gse_vfrag_t* vfrag, unsigned char const* data, size_t data_length);
 
 /**
  *  @brief   Transform a buffer into a virtual fragment
@@ -209,9 +201,7 @@ gse_status_t gse_copy_data(gse_vfrag_t *vfrag, unsigned char const* data,
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_create_vfrag_from_buf(gse_vfrag_t **vfrag, unsigned char *buffer,
-                                       unsigned int head_offset, unsigned int trail_offset,
-                                       unsigned int data_length);
+gse_status_t gse_create_vfrag_from_buf(gse_vfrag_t** vfrag, unsigned char* buffer, unsigned int head_offset, unsigned int trail_offset, unsigned int data_length);
 /**
  *  @brief   Create an empty virtual fragment - No allocation mode
  *
@@ -231,7 +221,7 @@ gse_status_t gse_create_vfrag_from_buf(gse_vfrag_t **vfrag, unsigned char *buffe
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_allocate_vfrag(gse_vfrag_t **vfrag, int alloc_vbuf);
+gse_status_t gse_allocate_vfrag(gse_vfrag_t** vfrag, int alloc_vbuf);
 
 /**
  *  @brief   Affect a buffer to an allocated virtual fragment - No allocation
@@ -260,9 +250,7 @@ gse_status_t gse_allocate_vfrag(gse_vfrag_t **vfrag, int alloc_vbuf);
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_affect_buf_vfrag(gse_vfrag_t *vfrag, unsigned char *buffer,
-                                  unsigned int head_offset, unsigned int trail_offset,
-                                  unsigned int data_length);
+gse_status_t gse_affect_buf_vfrag(gse_vfrag_t* vfrag, unsigned char* buffer, unsigned int head_offset, unsigned int trail_offset, unsigned int data_length);
 
 /**
  *  @brief   Free a virtual fragment
@@ -279,7 +267,7 @@ gse_status_t gse_affect_buf_vfrag(gse_vfrag_t *vfrag, unsigned char *buffer,
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_free_vfrag(gse_vfrag_t **vfrag);
+gse_status_t gse_free_vfrag(gse_vfrag_t** vfrag);
 
 /**
  *  @brief   Free a virtual fragment - No allocation mode
@@ -299,7 +287,7 @@ gse_status_t gse_free_vfrag(gse_vfrag_t **vfrag);
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_free_vfrag_no_alloc(gse_vfrag_t **vfrag, int reset, int free_vbuf);
+gse_status_t gse_free_vfrag_no_alloc(gse_vfrag_t** vfrag, int reset, int free_vbuf);
 
 /**
  *  @brief   Create a virtual fragment from an existing one
@@ -323,7 +311,7 @@ gse_status_t gse_free_vfrag_no_alloc(gse_vfrag_t **vfrag, int reset, int free_vb
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_duplicate_vfrag(gse_vfrag_t **vfrag, gse_vfrag_t *father, size_t length);
+gse_status_t gse_duplicate_vfrag(gse_vfrag_t** vfrag, gse_vfrag_t* father, size_t length);
 
 /**
  *  @brief   Create a virtual fragment from an existing one - No allocation mode
@@ -347,9 +335,7 @@ gse_status_t gse_duplicate_vfrag(gse_vfrag_t **vfrag, gse_vfrag_t *father, size_
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_duplicate_vfrag_no_alloc(gse_vfrag_t **vfrag,
-                                          gse_vfrag_t *father,
-                                          size_t length);
+gse_status_t gse_duplicate_vfrag_no_alloc(gse_vfrag_t** vfrag, gse_vfrag_t* father, size_t length);
 
 /**
  *  @brief   Shift the virtual fragment
@@ -372,7 +358,7 @@ gse_status_t gse_duplicate_vfrag_no_alloc(gse_vfrag_t **vfrag,
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_shift_vfrag(gse_vfrag_t *vfrag, int start_shift, int end_shift);
+gse_status_t gse_shift_vfrag(gse_vfrag_t* vfrag, int start_shift, int end_shift);
 
 /**
  *  @brief   Reset a virtual fragment to its created state
@@ -393,8 +379,7 @@ gse_status_t gse_shift_vfrag(gse_vfrag_t *vfrag, int start_shift, int end_shift)
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_reset_vfrag(gse_vfrag_t *vfrag, size_t *length,
-                             size_t head_offset, size_t trail_offset);
+gse_status_t gse_reset_vfrag(gse_vfrag_t* vfrag, size_t* length, size_t head_offset, size_t trail_offset);
 
 /**
  *  @brief   Get the pointer on the beginning of a virtual fragment
@@ -408,7 +393,7 @@ gse_status_t gse_reset_vfrag(gse_vfrag_t *vfrag, size_t *length,
  *
  *  @ingroup gse_virtual_fragment
  */
-unsigned char *gse_get_vfrag_start(gse_vfrag_t *vfrag);
+unsigned char* gse_get_vfrag_start(gse_vfrag_t* vfrag);
 
 /**
  *  @brief   Get the length of a virtual fragment (in bytes)
@@ -421,7 +406,7 @@ unsigned char *gse_get_vfrag_start(gse_vfrag_t *vfrag);
  *
  *  @ingroup gse_virtual_fragment
  */
-size_t gse_get_vfrag_length(gse_vfrag_t *vfrag);
+size_t gse_get_vfrag_length(gse_vfrag_t* vfrag);
 
 /**
  *  @brief   Set the length of a virtual fragment (in bytes)
@@ -440,7 +425,7 @@ size_t gse_get_vfrag_length(gse_vfrag_t *vfrag);
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_set_vfrag_length(gse_vfrag_t *vfrag, size_t length);
+gse_status_t gse_set_vfrag_length(gse_vfrag_t* vfrag, size_t length);
 
 /**
  *  @brief   Get the length available in buffer before virtual fragment (in bytes)
@@ -449,7 +434,7 @@ gse_status_t gse_set_vfrag_length(gse_vfrag_t *vfrag, size_t length);
  *
  *  @return         The header offset
  */
-size_t gse_get_vfrag_available_head(gse_vfrag_t *vfrag);
+size_t gse_get_vfrag_available_head(gse_vfrag_t* vfrag);
 
 /**
  *  @brief   Get the length available in buffer after virtual fragment (in bytes)
@@ -458,7 +443,7 @@ size_t gse_get_vfrag_available_head(gse_vfrag_t *vfrag);
  *
  *  @return         The trailer offset
  */
-size_t gse_get_vfrag_available_trail(gse_vfrag_t *vfrag);
+size_t gse_get_vfrag_available_trail(gse_vfrag_t* vfrag);
 
 /**
  *  @brief   Reallocate a virtual fragment internal buffer to increase
@@ -488,9 +473,7 @@ size_t gse_get_vfrag_available_trail(gse_vfrag_t *vfrag);
  *
  *  @ingroup gse_virtual_fragment
  */
-gse_status_t gse_reallocate_vfrag(gse_vfrag_t *vfrag,
-                                  size_t start_offset, size_t max_length,
-                                  size_t head_offset, size_t trail_offset);
+gse_status_t gse_reallocate_vfrag(gse_vfrag_t* vfrag, size_t start_offset, size_t max_length, size_t head_offset, size_t trail_offset);
 
 #ifdef __cplusplus
 }

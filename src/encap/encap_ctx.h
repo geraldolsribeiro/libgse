@@ -44,7 +44,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef GSE_ENCAP_CTX_H
 #define GSE_ENCAP_CTX_H
 
@@ -58,9 +57,8 @@
  ****************************************************************************/
 
 /** Encapsulation context */
-typedef struct
-{
-  gse_vfrag_t *vfrag;     /**< Virtual fragment containing the PDU */
+typedef struct {
+  gse_vfrag_t* vfrag;     /**< Virtual fragment containing the PDU */
   gse_label_t label;      /**< Label field value */
   uint16_t total_length;  /**< Total length field value in Network Byte Order (NBO) */
   uint16_t protocol_type; /**< Protocol type field value in NBO */

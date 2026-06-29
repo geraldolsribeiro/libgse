@@ -44,7 +44,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef GSE_REFRAG_H
 #define GSE_REFRAG_H
 
@@ -55,7 +54,6 @@
 /**
  * @defgroup gse_refrag GSE refragmentation API
  */
-
 
 /****************************************************************************
  *
@@ -113,8 +111,6 @@
  *
  *  @ingroup gse_refrag
  */
-gse_status_t gse_refrag_packet(gse_vfrag_t *packet1, gse_vfrag_t **packet2,
-                               size_t head_offset, size_t trail_offset,
-                               uint8_t qos, size_t max_length);
+gse_status_t gse_refrag_packet(gse_vfrag_t* packet1, gse_vfrag_t** packet2, size_t head_offset, size_t trail_offset, uint8_t qos, size_t max_length);
 
 #endif

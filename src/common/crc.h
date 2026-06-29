@@ -62,7 +62,7 @@ extern "C" {
 /**< Initial value for CRC32 computation */
 #define GSE_CRC_INIT 0xFFFFFFFF
 
-uint32_t compute_crc(const unsigned char *data, size_t length, uint32_t crc_init);
+uint32_t compute_crc(const unsigned char* data, size_t length, uint32_t crc_init);
 
 #ifdef __cplusplus
 }

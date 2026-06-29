@@ -56,94 +56,75 @@
  *
  ****************************************************************************/
 
-gse_status_t gse_get_start_indicator(unsigned char *packet,
-                                     uint8_t *start_indicator)
-{
-  if(packet == NULL || start_indicator == NULL)
-  {
+gse_status_t gse_get_start_indicator(unsigned char* packet, uint8_t* start_indicator) {
+  if (packet == NULL || start_indicator == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  *start_indicator = ((gse_header_t *)packet)->s;
+  *start_indicator = ((gse_header_t*)packet)->s;
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_end_indicator(unsigned char *packet,
-                                   uint8_t *end_indicator)
-{
-  if(packet == NULL || end_indicator == NULL)
-  {
+gse_status_t gse_get_end_indicator(unsigned char* packet, uint8_t* end_indicator) {
+  if (packet == NULL || end_indicator == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  *end_indicator = ((gse_header_t *)packet)->e;
+  *end_indicator = ((gse_header_t*)packet)->e;
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_label_type(unsigned char *packet, uint8_t *label_type)
-{
-  if(packet == NULL || label_type == NULL)
-  {
+gse_status_t gse_get_label_type(unsigned char* packet, uint8_t* label_type) {
+  if (packet == NULL || label_type == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  *label_type = ((gse_header_t *)packet)->lt;
+  *label_type = ((gse_header_t*)packet)->lt;
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_gse_length(unsigned char *packet, uint16_t *gse_length)
-{
-  if(packet == NULL || gse_length == NULL)
-  {
+gse_status_t gse_get_gse_length(unsigned char* packet, uint16_t* gse_length) {
+  if (packet == NULL || gse_length == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  const gse_header_t *header = (const gse_header_t *)packet;
+  const gse_header_t* header = (const gse_header_t*)packet;
   *gse_length = ((uint16_t)header->gse_length_hi << 8) | header->gse_length_lo;
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_frag_id(unsigned char *packet, uint8_t *frag_id)
-{
-  gse_header_t *header;
+gse_status_t gse_get_frag_id(unsigned char* packet, uint8_t* frag_id) {
+  gse_header_t* header;
 
-  if(packet == NULL)
-  {
+  if (packet == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
+  header = (gse_header_t*)packet;
   // Test if the GSE packet contains a fragment of PDU and not a complete PDU
-  if(header->s == 1 && header->e == 1)
-  {
+  if (header->s == 1 && header->e == 1) {
     return GSE_STATUS_FIELD_ABSENT;
   }
   // Set the Frag Id according to payload type
-  if(header->s == 0)
-  {
+  if (header->s == 0) {
     *frag_id = header->subs_frag_s.frag_id;
-  }
-  else
-  {
+  } else {
     *frag_id = header->first_frag_s.frag_id;
   }
 
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_total_length(unsigned char *packet, uint16_t *total_length)
-{
-  gse_header_t *header;
+gse_status_t gse_get_total_length(unsigned char* packet, uint16_t* total_length) {
+  gse_header_t* header;
 
-  if(packet == NULL)
-  {
+  if (packet == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
+  header = (gse_header_t*)packet;
   // Test if the GSE packet contains the good fragment type
-  if(header->s != 1 || header->e != 0)
-  {
+  if (header->s != 1 || header->e != 0) {
     return GSE_STATUS_FIELD_ABSENT;
   }
   *total_length = ntohs(header->first_frag_s.total_length);
@@ -151,74 +132,55 @@ gse_status_t gse_get_total_length(unsigned char *packet, uint16_t *total_length)
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_protocol_type(unsigned char *packet,
-                                   uint16_t *protocol_type)
-{
-  gse_header_t *header;
+gse_status_t gse_get_protocol_type(unsigned char* packet, uint16_t* protocol_type) {
+  gse_header_t* header;
 
-  if(packet == NULL)
-  {
+  if (packet == NULL) {
     return GSE_STATUS_NULL_PTR;
   }
 
-  header = (gse_header_t *)packet;
+  header = (gse_header_t*)packet;
   // Test if the GSE packet contains the good payload type
-  if(header->s != 1)
-  {
+  if (header->s != 1) {
     return GSE_STATUS_FIELD_ABSENT;
   }
   // Set the Protocol Type according to payload type
-  if(header->e == 0)
-  {
+  if (header->e == 0) {
     *protocol_type = ntohs(header->first_frag_s.protocol_type);
-  }
-  else
-  {
+  } else {
     *protocol_type = ntohs(header->complete_s.protocol_type);
   }
 
   return GSE_STATUS_OK;
 }
 
-gse_status_t gse_get_label(const unsigned char *packet, uint8_t label[6])
-{
+gse_status_t gse_get_label(const unsigned char* packet, uint8_t label[6]) {
   gse_status_t status = GSE_STATUS_OK;
-  gse_header_t *header;
+  gse_header_t* header;
 
-  if(packet == NULL)
-  {
+  if (packet == NULL) {
     status = GSE_STATUS_NULL_PTR;
     goto error;
   }
 
-  header = (gse_header_t *)packet;
+  header = (gse_header_t*)packet;
   // Test if the GSE packet contains the good payload type
-  if(header->s != 1)
-  {
+  if (header->s != 1) {
     status = GSE_STATUS_FIELD_ABSENT;
     goto error;
   }
   // Set the Label according to payload type
-  if(header->e == 0)
-  {
-    memcpy(label, &header->first_frag_s.label,
-           gse_get_label_length(header->lt));
-  }
-  else
-  {
-    memcpy(label, &header->complete_s.label,
-           gse_get_label_length(header->lt));
+  if (header->e == 0) {
+    memcpy(label, &header->first_frag_s.label, gse_get_label_length(header->lt));
+  } else {
+    memcpy(label, &header->complete_s.label, gse_get_label_length(header->lt));
   }
 
 error:
   return status;
 }
 
-gse_status_t gse_check_header_extension_validity(const unsigned char *extension,
-                                                 size_t *ext_length,
-                                                 uint16_t extension_type,
-                                                 uint16_t *protocol_type)
-{
+gse_status_t gse_check_header_extension_validity(const unsigned char* extension, size_t* ext_length, uint16_t extension_type, uint16_t* protocol_type) {
   gse_status_t status = GSE_STATUS_OK;
 
   gse_ext_type_t current_type;
@@ -229,63 +191,53 @@ gse_status_t gse_check_header_extension_validity(const unsigned char *extension,
   current_type.h_len = (extension_type >> 8) & 0x07;
   current_type.h_type = extension_type & 0xFF;
 
-  while(current_length < *ext_length)
-  {
-    if(current_type.null_1 != 0 || current_type.null_2 != 0)
-    {
+  while (current_length < *ext_length) {
+    if (current_type.null_1 != 0 || current_type.null_2 != 0) {
       /* got protocol_type, end of extensions */
       break;
     }
 
-    switch(current_type.h_len)
-    {
-      case(0x0):
-        /* TODO mandatory header extension */
-        status = GSE_STATUS_INVALID_EXTENSIONS;
-        goto error;
-        break;
+    switch (current_type.h_len) {
+    case (0x0):
+      /* TODO mandatory header extension */
+      status = GSE_STATUS_INVALID_EXTENSIONS;
+      goto error;
+      break;
 
-      case(0x1):
-        current_length += 2;
-        break;
+    case (0x1):
+      current_length += 2;
+      break;
 
-      case(0x2):
-        current_length += 4;
-        break;
+    case (0x2):
+      current_length += 4;
+      break;
 
-      case(0x3):
-        current_length += 6;
-        break;
+    case (0x3):
+      current_length += 6;
+      break;
 
-      case(0x4):
-        current_length += 8;
-        break;
+    case (0x4):
+      current_length += 8;
+      break;
 
-      case(0x5):
-        current_length += 10;
-        break;
+    case (0x5):
+      current_length += 10;
+      break;
 
-      default:
-        status = GSE_STATUS_INVALID_EXTENSIONS;
-        goto error;
+    default:
+      status = GSE_STATUS_INVALID_EXTENSIONS;
+      goto error;
     }
-    if(current_length <= *ext_length)
-    {
+    if (current_length <= *ext_length) {
       memcpy(&current_type, extension + current_length - 2, sizeof(gse_ext_type_t));
-    }
-    else
-    {
+    } else {
       status = GSE_STATUS_INVALID_EXTENSIONS;
       goto error;
     }
   }
 
-  *protocol_type = (current_type.null_1 & 0xF) << 12 |
-                   (current_type.null_2 & 0x01) << 11 |
-                   (current_type.h_len & 0x07) << 8 |
-                   (current_type.h_type & 0xFF);
-  if(gse_is_ext_hdr(*protocol_type))
-  {
+  *protocol_type = (current_type.null_1 & 0xF) << 12 | (current_type.null_2 & 0x01) << 11 | (current_type.h_len & 0x07) << 8 | (current_type.h_type & 0xFF);
+  if (gse_is_ext_hdr(*protocol_type)) {
     status = GSE_STATUS_INVALID_EXTENSIONS;
     goto error;
   }
@@ -296,37 +248,33 @@ error:
   return status;
 }
 
-bool gse_is_llc(const uint16_t protocol_type)
-{
-	bool is_llc;
+bool gse_is_llc(const uint16_t protocol_type) {
+  bool is_llc;
 
-	switch(protocol_type)
-	{
-		case GSE_EXT_LL_GSE_NCR:
-		case GSE_EXT_LL_RCS_L2S:
-		case GSE_EXT_LL_RCS_DCP:
-		case GSE_EXT_LL_RCS_1:
-		case GSE_EXT_LL_RCS_TRANSEC_SYS:
-		case GSE_EXT_LL_RCS_TRANSEC_PAY:
-		case GSE_EXT_DVB_GSE_LLC:
-		case GSE_EXT_LL_RCS_FEC_FDT:
-		case GSE_EXT_LL_RCS_FEC_ADT:
-		case GSE_EXT_LL_CRC32:
-			is_llc = true;
-			break;
-		default:
-			is_llc = false;
-			break;
-	}
+  switch (protocol_type) {
+  case GSE_EXT_LL_GSE_NCR:
+  case GSE_EXT_LL_RCS_L2S:
+  case GSE_EXT_LL_RCS_DCP:
+  case GSE_EXT_LL_RCS_1:
+  case GSE_EXT_LL_RCS_TRANSEC_SYS:
+  case GSE_EXT_LL_RCS_TRANSEC_PAY:
+  case GSE_EXT_DVB_GSE_LLC:
+  case GSE_EXT_LL_RCS_FEC_FDT:
+  case GSE_EXT_LL_RCS_FEC_ADT:
+  case GSE_EXT_LL_CRC32:
+    is_llc = true;
+    break;
+  default:
+    is_llc = false;
+    break;
+  }
 
-	return is_llc;
+  return is_llc;
 }
 
-bool gse_is_ext_hdr(const uint16_t protocol_type)
-{
-	const size_t min_ether_type = 1536; /**< Minimum value for EtherTypes */
+bool gse_is_ext_hdr(const uint16_t protocol_type) {
+  const size_t min_ether_type = 1536; /**< Minimum value for EtherTypes */
 
-	/* protocol types below 1536 are extension headers except for LLC */
-	return (protocol_type < min_ether_type && !gse_is_llc(protocol_type));
+  /* protocol types below 1536 are extension headers except for LLC */
+  return (protocol_type < min_ether_type && !gse_is_llc(protocol_type));
 }
-

@@ -44,7 +44,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef GSE_CONSTANTS_H
 #define GSE_CONSTANTS_H
 
@@ -90,20 +89,17 @@
  */
 #define GSE_MAX_EXT_LENGTH 1024
 
-
 /** Type of label
  *
  *  @ingroup gse_head_access
  */
-typedef enum
-{
-  GSE_LT_6_BYTES  = 0,   /**< 6-bytes label '00' */
-  GSE_LT_3_BYTES  = 1,   /**< 3-bytes label '01' */
-  GSE_LT_NO_LABEL = 2,   /**< No label '10' */
-  GSE_LT_REUSE    = 3,   /**< label re-use or reserved value for PDU subsequent
-                              fragments '11' */
+typedef enum {
+  GSE_LT_6_BYTES = 0,  /**< 6-bytes label '00' */
+  GSE_LT_3_BYTES = 1,  /**< 3-bytes label '01' */
+  GSE_LT_NO_LABEL = 2, /**< No label '10' */
+  GSE_LT_REUSE = 3,    /**< label re-use or reserved value for PDU subsequent
+                            fragments '11' */
 } gse_label_type_t;
-
 
 /**
  *  @brief   Get the GSE label length depending on label type value
@@ -115,32 +111,29 @@ typedef enum
  *
  *  @ingroup gse_head_access
  */
-static inline int gse_get_label_length(gse_label_type_t label_type)
-{
-  switch(label_type)
-  {
-    /* LT = '00' : 6-Bytes label */
-    case GSE_LT_6_BYTES :
-      return 6;
-      break;
+static inline int gse_get_label_length(gse_label_type_t label_type) {
+  switch (label_type) {
+  /* LT = '00' : 6-Bytes label */
+  case GSE_LT_6_BYTES:
+    return 6;
+    break;
 
-    /* LT = '01' : 3-Bytes label */
-    case GSE_LT_3_BYTES :
-      return 3;
-      break;
+  /* LT = '01' : 3-Bytes label */
+  case GSE_LT_3_BYTES:
+    return 3;
+    break;
 
-    /* LT = '10' : no label */
-    case GSE_LT_NO_LABEL :
-    /* LT = '11' : label re-use */
-    case GSE_LT_REUSE :
-      return 0;
-      break;
+  /* LT = '10' : no label */
+  case GSE_LT_NO_LABEL:
+  /* LT = '11' : label re-use */
+  case GSE_LT_REUSE:
+    return 0;
+    break;
 
-    /* Invalid LT */
-    default :
-      return -1;
+  /* Invalid LT */
+  default:
+    return -1;
   }
 }
-
 
 #endif

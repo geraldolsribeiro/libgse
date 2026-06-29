@@ -44,7 +44,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef GSE_FIFO_H
 #define GSE_FIFO_H
 
@@ -59,14 +58,13 @@
  ****************************************************************************/
 
 /** FIFO of GSE encapsulation contexts */
-typedef struct
-{
-  gse_encap_ctx_t *values;  /**< The table of elements (ie. the FIFO) */
-  size_t size;              /**< Size of the fifo */
-  unsigned int first;       /**< Index of the first element of the FIFO */
-  unsigned int last;        /**< Index of the last element of the FIFO */
-  unsigned int elt_nbr;     /**< Number of elements in the FIFO */
-  pthread_mutex_t mutex;    /**< Mutex on the context for multithreading support */
+typedef struct {
+  gse_encap_ctx_t* values; /**< The table of elements (ie. the FIFO) */
+  size_t size;             /**< Size of the fifo */
+  unsigned int first;      /**< Index of the first element of the FIFO */
+  unsigned int last;       /**< Index of the last element of the FIFO */
+  unsigned int elt_nbr;    /**< Number of elements in the FIFO */
+  pthread_mutex_t mutex;   /**< Mutex on the context for multithreading support */
 } fifo_t;
 
 /****************************************************************************
@@ -93,7 +91,7 @@ typedef struct
  *                   - \ref GSE_STATUS_MALLOC_FAILED
  *                   - \ref GSE_STATUS_PTHREAD_MUTEX
  */
-gse_status_t gse_init_fifo(fifo_t *fifo, size_t size);
+gse_status_t gse_init_fifo(fifo_t* fifo, size_t size);
 
 /**
  *  @brief   Release a FIFO
@@ -108,7 +106,7 @@ gse_status_t gse_init_fifo(fifo_t *fifo, size_t size);
  *                   - \ref GSE_STATUS_NULL_PTR
  *                   - \ref GSE_STATUS_FRAG_NBR
  */
-gse_status_t gse_release_fifo(fifo_t *fifo);
+gse_status_t gse_release_fifo(fifo_t* fifo);
 
 /**
  *  @brief   Remove an element from the fifo
@@ -124,7 +122,7 @@ gse_status_t gse_release_fifo(fifo_t *fifo);
  *                   - \ref GSE_STATUS_PTHREAD_MUTEX
  *                   - \ref GSE_STATUS_FIFO_EMPTY
  */
-gse_status_t gse_pop_fifo(fifo_t *fifo);
+gse_status_t gse_pop_fifo(fifo_t* fifo);
 
 /**
  *  @brief   Tell the FIFO to add an element and to fill it
@@ -144,8 +142,7 @@ gse_status_t gse_pop_fifo(fifo_t *fifo);
  *                       - \ref GSE_STATUS_PTHREAD_MUTEX
  *                       - \ref GSE_STATUS_FIFO_FULL
  */
-gse_status_t gse_push_fifo(fifo_t *fifo, gse_encap_ctx_t **context,
-                           gse_encap_ctx_t ctx_elts);
+gse_status_t gse_push_fifo(fifo_t* fifo, gse_encap_ctx_t** context, gse_encap_ctx_t ctx_elts);
 
 /**
  *  @brief   Get the first element of the FIFO without removing it
@@ -164,7 +161,7 @@ gse_status_t gse_push_fifo(fifo_t *fifo, gse_encap_ctx_t **context,
  *                      - \ref GSE_STATUS_PTHREAD_MUTEX
  *                      - \ref GSE_STATUS_FIFO_EMPTY
  */
-gse_status_t gse_get_fifo_elt(fifo_t *fifo, gse_encap_ctx_t **context);
+gse_status_t gse_get_fifo_elt(fifo_t* fifo, gse_encap_ctx_t** context);
 
 /**
  *  @brief   Get the number of elements in the FIFO
@@ -176,6 +173,6 @@ gse_status_t gse_get_fifo_elt(fifo_t *fifo, gse_encap_ctx_t **context);
  *  @return         The number of elements in the FIFO on success,
  *                  -1 on failure
  */
-int gse_get_fifo_elt_nbr(fifo_t *const fifo);
+int gse_get_fifo_elt_nbr(fifo_t* const fifo);
 
 #endif

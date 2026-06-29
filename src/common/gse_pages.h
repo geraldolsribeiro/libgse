@@ -48,7 +48,7 @@
  * \mainpage
  *
  * <h2>Introduction</h2>
- * 
+ *
  * <p>
  * This piece of software is an implementation of Generic Stream Encapsulation
  * for Linux (or other Unix-compatible OS). The library can be used to add GSE
@@ -70,11 +70,11 @@
  *    <li>\ref gse_deencap</li>
  *  </ul>
  * </p>
- * 
+ *
  * <h2>License</h2>
  *
  * <p>The library is the property of Thales Alenia Space</p>
- * 
+ *
  * <h2>Organization</h2>
  *
  * <p>
@@ -89,17 +89,17 @@
  * Each directory contains a test subdirectories that contains nominal tests
  * for the elements of the directory.
  * </p>
- * 
- * 
+ *
+ *
  * <h2>Non-regression tests</h2>
- * 
+ *
  * <p>
  * The test directory contains test applications. See the header of the
  * test files for details.
  * </p>
- * 
+ *
  * <h2>References</h2>
- * 
+ *
  * <table style="border-collapse: collapse; border: solid thin black;">
  *  <tr>
  *   <td>ETSI TS 102 606</td>
@@ -124,7 +124,7 @@
  *   <td>
  *    <p>
  *     Unidirectional Lightweight Encapsulation (ULE) for Transmission of IP
- *     Datagrams over an MPEG-2 Transport Stream (TS) 
+ *     Datagrams over an MPEG-2 Transport Stream (TS)
  *    </p>
  *   </td>
  *  </tr>

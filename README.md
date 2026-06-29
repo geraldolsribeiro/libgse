@@ -19,6 +19,11 @@ The sources are in the `src/` directory. They build a single library that
 handles both encapsulation and de-encapsulation. See `INSTALL` for build
 instructions.
 
+## Formatting
+
+The repository includes a `.clang-format` configuration for C sources. Use
+`clang-format` to keep code style consistent.
+
 Example:
 
 ```sh

@@ -44,7 +44,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef HEADER_H
 #define HEADER_H
 
@@ -77,66 +76,59 @@ extern "C" {
  ****************************************************************************/
 
 /** Label field structure */
-typedef union
-{
-  uint8_t no_label[0];           /**< No label or label re-use */
-  uint8_t three_bytes_label[3];  /**< 3-Bytes Label */
-  uint8_t six_bytes_label[6];    /**< 6-Bytes Label */
+typedef union {
+  uint8_t no_label[0];          /**< No label or label re-use */
+  uint8_t three_bytes_label[3]; /**< 3-Bytes Label */
+  uint8_t six_bytes_label[6];   /**< 6-Bytes Label */
 } gse_label_t;
 
 /** GSE header structure */
-typedef struct
-{
+typedef struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-  unsigned int s:1;             /**< Start Indicator field */
-  unsigned int e:1;             /**< End Indicator field */
-  unsigned int lt:2;            /**< Label Type field */
-  unsigned int gse_length_hi:4; /**< GSE length field MSB */
-  unsigned int gse_length_lo:8; /**< GSE length field LSB */
+  unsigned int s : 1;             /**< Start Indicator field */
+  unsigned int e : 1;             /**< End Indicator field */
+  unsigned int lt : 2;            /**< Label Type field */
+  unsigned int gse_length_hi : 4; /**< GSE length field MSB */
+  unsigned int gse_length_lo : 8; /**< GSE length field LSB */
 #elif __BYTE_ORDER == __LITTLE_ENDIAN
-  unsigned int gse_length_hi:4; /**< GSE length field MSB */
-  unsigned int lt:2;            /**< Label Type field */
-  unsigned int e:1;             /**< End Indicator field */
-  unsigned int s:1;             /**< Start Indicator field */
-  unsigned int gse_length_lo:8; /**< GSE length field LSB */
+  unsigned int gse_length_hi : 4; /**< GSE length field MSB */
+  unsigned int lt : 2;            /**< Label Type field */
+  unsigned int e : 1;             /**< End Indicator field */
+  unsigned int s : 1;             /**< Start Indicator field */
+  unsigned int gse_length_lo : 8; /**< GSE length field LSB */
 #else
 #error "Please fix <bits/endian.h>"
 #endif
 
-  union
-  {
+  union {
     /**< Subsequent fragment of PDU */
-    struct
-    {
-      uint8_t frag_id;              /**< Frag ID field */
+    struct {
+      uint8_t frag_id; /**< Frag ID field */
     } __attribute__((packed)) subs_frag_s;
 
     /**< First fragment of PDU */
-    struct
-    {
-      uint8_t frag_id;              /**< Frag ID Field */
-      uint16_t total_length;        /**< Total Length field */
-      uint16_t protocol_type;       /**< Protocol Type field */
-      gse_label_t label;            /**< Label field */
+    struct {
+      uint8_t frag_id;        /**< Frag ID Field */
+      uint16_t total_length;  /**< Total Length field */
+      uint16_t protocol_type; /**< Protocol Type field */
+      gse_label_t label;      /**< Label field */
     } __attribute__((packed)) first_frag_s;
 
     /**< Complete PDU */
-    struct
-    {
-      uint16_t protocol_type;        /**< Protocol Type field */
-      gse_label_t label;             /**< Label field */
+    struct {
+      uint16_t protocol_type; /**< Protocol Type field */
+      gse_label_t label;      /**< Label field */
     } __attribute__((packed)) complete_s;
   } __attribute__((packed));
 
 } __attribute__((packed)) gse_header_t;
 
 /** Type of payload carried by the GSE packet */
-typedef enum
-{
-  GSE_PDU_COMPLETE,    /**< Complete PDU */
-  GSE_PDU_FIRST_FRAG,  /**< First fragment of PDU */
-  GSE_PDU_SUBS_FRAG,   /**< Subsequent fragment of PDU which is not the last one */
-  GSE_PDU_LAST_FRAG,   /**< Last fragment of PDU */
+typedef enum {
+  GSE_PDU_COMPLETE,   /**< Complete PDU */
+  GSE_PDU_FIRST_FRAG, /**< First fragment of PDU */
+  GSE_PDU_SUBS_FRAG,  /**< Subsequent fragment of PDU which is not the last one */
+  GSE_PDU_LAST_FRAG,  /**< Last fragment of PDU */
 } gse_payload_type_t;
 
 /****************************************************************************
@@ -156,8 +148,7 @@ typedef enum
  *  @return                The header length on success,
  *                         0 on error
  */
-size_t gse_compute_header_length(gse_payload_type_t payload_type,
-                                 gse_label_type_t label_type);
+size_t gse_compute_header_length(gse_payload_type_t payload_type, gse_label_type_t label_type);
 
 #ifdef __cplusplus
 }

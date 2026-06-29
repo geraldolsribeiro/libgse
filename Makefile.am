@@ -19,6 +19,7 @@ dist_doc_DATA = \
 	README.md
 	
 EXTRA_DIST = \
+	.clang-format \
 	doc/doxygen \
 	debian/changelog \
 	debian/compat \
@@ -38,10 +39,13 @@ EXTRA_DIST = \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = gse.pc
 
-.PHONY: doc
+.PHONY: doc format
 
 doc:
 	doxygen doc/doxygen
+
+format:
+	find src test app \( -name '*.[ch]' -o -name '*.cc' \) -print | xargs clang-format -i
 
 clean-doc:
 	$(RM) -r doc/html

@@ -15,7 +15,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef GSE_ENCAP_EXT_H
 #define GSE_ENCAP_EXT_H
 
@@ -53,11 +52,7 @@
  *
  *  @ingroup gse_ext
  */
-typedef int (*gse_encap_build_header_ext_cb_t)(unsigned char *ext,
-                                               size_t *length,
-                                               uint16_t *extension_type,
-                                               uint16_t protocol_type,
-                                               void *opaque);
+typedef int (*gse_encap_build_header_ext_cb_t)(unsigned char* ext, size_t* length, uint16_t* extension_type, uint16_t protocol_type, void* opaque);
 
 /**
  *  @brief   Add header extensions to a GSE packet
@@ -124,15 +119,8 @@ typedef int (*gse_encap_build_header_ext_cb_t)(unsigned char *ext,
  *
  *  @ingroup gse_ext
  */
-gse_status_t gse_encap_add_header_ext(gse_vfrag_t *packet,
-                                      gse_vfrag_t **frag,
-                                      uint32_t *crc,
-                                      gse_encap_build_header_ext_cb_t callback,
-                                      size_t max_length,
-                                      size_t head_offset,
-                                      size_t trail_offset,
-                                      uint8_t qos,
-                                      void *opaque);
+gse_status_t gse_encap_add_header_ext(gse_vfrag_t* packet, gse_vfrag_t** frag, uint32_t* crc, gse_encap_build_header_ext_cb_t callback, size_t max_length, size_t head_offset,
+                                      size_t trail_offset, uint8_t qos, void* opaque);
 
 /**
  *  @brief   Update the CRC for each fragment of context and overwrite the CRC of
@@ -157,8 +145,6 @@ gse_status_t gse_encap_add_header_ext(gse_vfrag_t *packet,
  *
  *  @ingroup gse_ext
  */
-gse_status_t gse_encap_update_crc(gse_vfrag_t *packet,
-                                  uint32_t *crc);
-
+gse_status_t gse_encap_update_crc(gse_vfrag_t* packet, uint32_t* crc);
 
 #endif

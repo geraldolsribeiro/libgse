@@ -44,7 +44,6 @@
  */
 /****************************************************************************/
 
-
 #ifndef GSE_DEENCAP_H
 #define GSE_DEENCAP_H
 
@@ -93,7 +92,7 @@ typedef struct gse_deencap_s gse_deencap_t;
  *
  *  @ingroup gse_deencap
  */
-gse_status_t gse_deencap_init(uint8_t qos_nbr, gse_deencap_t **deencap);
+gse_status_t gse_deencap_init(uint8_t qos_nbr, gse_deencap_t** deencap);
 
 /**
  *  @brief   Release the encapsulation structure
@@ -109,7 +108,7 @@ gse_status_t gse_deencap_init(uint8_t qos_nbr, gse_deencap_t **deencap);
  *
  *  @ingroup gse_deencap
  */
-gse_status_t gse_deencap_release(gse_deencap_t *deencap);
+gse_status_t gse_deencap_release(gse_deencap_t* deencap);
 
 /**
  *  @brief   Set the offsets applied on the returned virtual buffer which will
@@ -129,9 +128,7 @@ gse_status_t gse_deencap_release(gse_deencap_t *deencap);
  *
  *  @ingroup gse_deencap
  */
-gse_status_t gse_deencap_set_offsets(gse_deencap_t *deencap,
-                                     size_t head_offset,
-                                     size_t trail_offset);
+gse_status_t gse_deencap_set_offsets(gse_deencap_t* deencap, size_t head_offset, size_t trail_offset);
 
 /* Deencapsulation functions */
 
@@ -193,10 +190,7 @@ gse_status_t gse_deencap_set_offsets(gse_deencap_t *deencap,
  *
  *  @ingroup gse_deencap
  */
-gse_status_t gse_deencap_packet(gse_vfrag_t *data, gse_deencap_t *deencap,
-                                uint8_t *label_type, uint8_t label[6],
-                                uint16_t *protocol, gse_vfrag_t **pdu,
-                                uint16_t *packet_length);
+gse_status_t gse_deencap_packet(gse_vfrag_t* data, gse_deencap_t* deencap, uint8_t* label_type, uint8_t label[6], uint16_t* protocol, gse_vfrag_t** pdu, uint16_t* packet_length);
 
 /**
  *  @brief   Signal that a new BB Frame has been received
@@ -218,7 +212,7 @@ gse_status_t gse_deencap_packet(gse_vfrag_t *data, gse_deencap_t *deencap,
  *
  *  @ingroup gse_deencap
  */
-gse_status_t gse_deencap_new_bbframe(gse_deencap_t *deencap);
+gse_status_t gse_deencap_new_bbframe(gse_deencap_t* deencap);
 
 /**
  *  @brief  Set the callback that read header extensions
@@ -234,9 +228,7 @@ gse_status_t gse_deencap_new_bbframe(gse_deencap_t *deencap);
  *
  *  @ingroup gse_ext
  */
-gse_status_t gse_deencap_set_extension_callback(gse_deencap_t *deencap,
-                                                gse_deencap_read_header_ext_cb_t callback,
-                                                void *opaque);
+gse_status_t gse_deencap_set_extension_callback(gse_deencap_t* deencap, gse_deencap_read_header_ext_cb_t callback, void* opaque);
 
 #ifdef __cplusplus
 }
