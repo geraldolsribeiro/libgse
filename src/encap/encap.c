@@ -338,22 +338,16 @@ gse_status_t gse_encap_receive_pdu(gse_vfrag_t *pdu, gse_encap_t *encap,
                                    uint16_t protocol, uint8_t qos)
 {
   gse_status_t status = GSE_STATUS_OK;
-
   gse_encap_ctx_t *encap_ctx;
   gse_encap_ctx_t ctx_elts;
-  int label_length = -1;
+  int label_length;
 
-  /* Check parameters validity */
-  if(pdu == NULL)
+  if(pdu == NULL || encap == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    gse_free_vfrag_no_alloc(&pdu, 1, 0);
+    return GSE_STATUS_NULL_PTR;
   }
-  if(encap == NULL)
-  {
-    status = GSE_STATUS_NULL_PTR;
-    goto free_pdu;
-  }
+
   label_length = gse_get_label_length(label_type);
   if(label_length < 0)
   {
@@ -397,8 +391,7 @@ gse_status_t gse_encap_receive_pdu(gse_vfrag_t *pdu, gse_encap_t *encap,
     goto free_pdu;
   }
 
-error:
-  return status;
+  return GSE_STATUS_OK;
 free_pdu:
   gse_free_vfrag_no_alloc(&pdu, 1, 0);
   return status;
