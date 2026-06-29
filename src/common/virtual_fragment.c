@@ -51,6 +51,16 @@
 #include <stdlib.h>
 #include <assert.h>
 
+static inline gse_status_t gse_validate_vfrag_bounds(gse_vfrag_t *vfrag)
+{
+  if(vfrag->end > vfrag->vbuf->end || vfrag->end < vfrag->vbuf->start)
+  {
+    return GSE_STATUS_INTERNAL_ERROR;
+  }
+
+  return GSE_STATUS_OK;
+}
+
 
 /****************************************************************************
  *
@@ -105,63 +115,52 @@ static gse_status_t gse_free_vbuf(gse_vbuf_t *vbuf);
 gse_status_t gse_create_vfrag(gse_vfrag_t **vfrag, size_t max_length,
                               size_t head_offset, size_t trail_offset)
 {
-  gse_status_t status = GSE_STATUS_OK;
-
-  gse_vbuf_t *vbuf;
-  size_t length_buf;
-
   if(vfrag == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
+
+  *vfrag = NULL;
 
   /* The length of the buffer containing the fragment is the fragment length
      plus the offsets */
-  length_buf = max_length + head_offset + trail_offset;
+  const size_t length_buf = max_length + head_offset + trail_offset;
   if(length_buf == 0)
   {
-    status = GSE_STATUS_BUFF_LENGTH_NULL;
-    goto error;
+    return GSE_STATUS_BUFF_LENGTH_NULL;
   }
 
-  status = gse_create_vbuf(&vbuf, length_buf);
+  gse_vbuf_t *vbuf = NULL;
+  gse_status_t status = gse_create_vbuf(&vbuf, length_buf);
   if(status != GSE_STATUS_OK)
   {
-    goto error;
+    return status;
   }
 
-  *vfrag = malloc(sizeof(gse_vfrag_t));
+  *vfrag = malloc(sizeof(**vfrag));
   if(*vfrag == NULL)
   {
-    status = GSE_STATUS_MALLOC_FAILED;
-    goto free_vbuf;
+    gse_free_vbuf(vbuf);
+    return GSE_STATUS_MALLOC_FAILED;
   }
+
   (*vfrag)->vbuf = vbuf;
-  (*vfrag)->start = ((*vfrag)->vbuf->start + head_offset),
+  (*vfrag)->start = vbuf->start + head_offset;
   (*vfrag)->length = max_length;
   (*vfrag)->end = (*vfrag)->start + (*vfrag)->length;
-  assert(((*vfrag)->end) <= ((*vfrag)->vbuf->end));
-  assert(((*vfrag)->end) >= ((*vfrag)->vbuf->start));
-  if(((*vfrag)->end) > ((*vfrag)->vbuf->end) ||
-     ((*vfrag)->end) < ((*vfrag)->vbuf->start))
+  assert((*vfrag)->end <= vbuf->end);
+  assert((*vfrag)->end >= vbuf->start);
+  status = gse_validate_vfrag_bounds(*vfrag);
+  if(status != GSE_STATUS_OK)
   {
-    status = GSE_STATUS_INTERNAL_ERROR;
-    goto free_vfrag;
-  }
-  vbuf->vfrag_count++;
-
-  return status;
-free_vfrag:
-  free(*vfrag);
-free_vbuf:
-  gse_free_vbuf(vbuf);
-error:
-  if(vfrag != NULL)
-  {
+    free(*vfrag);
     *vfrag = NULL;
+    gse_free_vbuf(vbuf);
+    return status;
   }
-  return status;
+
+  vbuf->vfrag_count++;
+  return GSE_STATUS_OK;
 }
 
 gse_status_t gse_create_vfrag_with_data(gse_vfrag_t **vfrag, size_t max_length,
@@ -193,47 +192,29 @@ error:
 gse_status_t gse_copy_data(gse_vfrag_t *vfrag, unsigned char const *data,
                            size_t data_length)
 {
-  gse_status_t status = GSE_STATUS_OK;
-
-  if(vfrag == NULL)
+  if(vfrag == NULL || data == NULL)
   {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
-  }
-
-  if(data == NULL)
-  {
-    status = GSE_STATUS_NULL_PTR;
-    goto error;
+    return GSE_STATUS_NULL_PTR;
   }
 
   /* If there is more than one virtual fragment in buffer, don't overwrite data */
   if(gse_get_vfrag_nbr(vfrag) > 1)
   {
-    status = GSE_STATUS_MULTIPLE_VBUF_ACCESS;
-    goto error;
+    return GSE_STATUS_MULTIPLE_VBUF_ACCESS;
   }
+
   /* Check if there is enough space in buffer */
-  if((vfrag->length) < data_length)
+  if(vfrag->length < data_length)
   {
-    status = GSE_STATUS_DATA_TOO_LONG;
-    goto error;
+    return GSE_STATUS_DATA_TOO_LONG;
   }
-  /* Copy data in vfrag and update vfrag structure */
+
   memcpy(vfrag->start, data, data_length);
   vfrag->length = data_length;
   vfrag->end = vfrag->start + vfrag->length;
-  assert((vfrag->end) <= (vfrag->vbuf->end));
-  assert((vfrag->end) >= (vfrag->vbuf->start));
-  if((vfrag->end) > (vfrag->vbuf->end) ||
-     (vfrag->end) < (vfrag->vbuf->start))
-  {
-    status = GSE_STATUS_INTERNAL_ERROR;
-    goto error;
-  }
-
-error:
-  return status;
+  assert(vfrag->end <= vfrag->vbuf->end);
+  assert(vfrag->end >= vfrag->vbuf->start);
+  return gse_validate_vfrag_bounds(vfrag);
 }
 
 gse_status_t gse_create_vfrag_from_buf(gse_vfrag_t **vfrag, unsigned char *buffer,

@@ -8,6 +8,7 @@
   simplify common header helpers
   remove repetitive error handling in header accessors
   const-correct internal status strings
+  modernize virtual fragment internals
   keep public API unchanged
 
 2017-12-14 release 1.2.0
