@@ -268,7 +268,7 @@ gse_status_t gse_get_protocol_type(unsigned char *packet,
  *
  *  @ingroup gse_head_access
  */
-gse_status_t gse_get_label(unsigned char *packet, uint8_t label[6]);
+gse_status_t gse_get_label(const unsigned char *packet, uint8_t label[6]);
 
 /**
  *  @brief   Check header extensions validity and get the last type field

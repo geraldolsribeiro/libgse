@@ -29,7 +29,7 @@
   add ASan runner script
   enable C++ compiler detection
   document buffer ownership expectations
-  fix deencap fragment ownership on extension parsing
+  const-correct label lookup API
   keep public API unchanged
 
 2017-12-14 release 1.2.0

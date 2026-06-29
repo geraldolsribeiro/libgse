@@ -192,7 +192,7 @@ error:
   return status;
 }
 
-gse_status_t gse_get_label(unsigned char *packet, uint8_t label[6])
+gse_status_t gse_get_label(const unsigned char *packet, uint8_t label[6])
 {
   gse_status_t status = GSE_STATUS_OK;
   gse_header_t *header;
