@@ -11,6 +11,7 @@
   modernize virtual fragment internals
   continue streamlining buffer helpers
   modernize crc helper implementation
+  tighten encap cleanup flow
   keep public API unchanged
 
 2017-12-14 release 1.2.0
