@@ -217,6 +217,6 @@ typedef enum
  *
  *  @ingroup gse_status_codes
  */
-char *gse_get_status(gse_status_t status);
+const char *gse_get_status(gse_status_t status);
 
 #endif

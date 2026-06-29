@@ -123,14 +123,12 @@ static const char *const gse_status_string[GSE_STATUS_MAX] =
   [0x0B02 ... 0x0BFF] = "Unknown status",
 };
 
-char *gse_get_status(gse_status_t status)
+const char *gse_get_status(gse_status_t status)
 {
   if(status >= GSE_STATUS_MAX)
   {
     return "Unknown status";
   }
-  else
-  {
-    return (char *)gse_status_string[status];
-  }
+
+  return gse_status_string[status];
 }
