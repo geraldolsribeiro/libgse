@@ -26,6 +26,7 @@
   const-correct encap input labels
   add C++ compile sanity test
   enable C++ compiler detection
+  document buffer ownership expectations
   keep public API unchanged
 
 2017-12-14 release 1.2.0

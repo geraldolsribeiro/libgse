@@ -141,7 +141,8 @@ gse_status_t gse_deencap_set_offsets(gse_deencap_t *deencap,
  *  If the complete PDU is deencapsulated, label_type, label, protocol
  *  and the PDU itself are returned, else only GSE Length is returned.
  *
- *  @warning Data is always destroyed by the function.
+ *  @warning Data is always destroyed by the function and must not be reused
+ *           by the caller.
  *
  *  @param   data           The data containing packet to deencapsulate.
  *                          Data can contain more than one GSE packet but only
@@ -154,6 +155,8 @@ gse_status_t gse_deencap_set_offsets(gse_deencap_t *deencap,
  *  @param   pdu            OUT: The PDU if return code is
  *                               \ref GSE_STATUS_PDU_RECEIVED,
  *                               NULL otherwise
+ *
+ *  The returned PDU is owned by the caller.
  *  @param   packet_length  OUT: The length of the GSE packet on success
  *                                except padding detected (in bytes)
  *

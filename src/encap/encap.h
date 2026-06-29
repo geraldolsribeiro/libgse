@@ -146,7 +146,8 @@ gse_status_t gse_encap_set_offsets(gse_encap_t *encap,
  *  should be large enough for user offset (no GSE data) + header length +
  *  extensions
  *
- *  @warning In case of warning or error, the PDU is destroyed.
+ *  @warning In case of warning or error, the PDU is destroyed and must not be
+ *           reused by the caller.
  *
  *  @param   pdu            The PDU to encapsulate
  *  @param   encap          The encapsulation context structure
@@ -179,6 +180,8 @@ gse_status_t gse_encap_receive_pdu(gse_vfrag_t *pdu, gse_encap_t *encap,
  *
  *  This function should not be called if the previous GSE packet has not
  *  been destroyed (with gse_free_vfrag) except for the first packet.
+ *
+ *  The returned packet is owned by the caller.
  *
  *  @param   packet          OUT: The GSE packet on success,
  *                                NULL on error or warning
@@ -219,6 +222,8 @@ gse_status_t gse_encap_get_packet(gse_vfrag_t **packet, gse_encap_t *encap,
  *
  *  This function does not use zero copy strategy. Thus, it could be called
  *  without destroying the previous GSE packets.
+ *
+ *  The returned packet is owned by the caller.
  *
  *  @param   packet          OUT: The GSE packet on success,
  *                                NULL on error or warning
